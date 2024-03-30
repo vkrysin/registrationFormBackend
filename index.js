@@ -1,17 +1,11 @@
-import { mongoConnect, Service } from "./mongoDb.js";
+import { mongoConnect } from "./mongoDb.js";
+
+import { Service } from "./services/initServices.js";
+import { Master } from "./masters/initMasters.js";
 
 import express from "express";
 const app = express();
 const port = 3000;
-
-const haircuts = [
-  {
-    id: 1,
-    name: "Патчи",
-    price: 1099,
-    duration: "15",
-  },
-];
 
 app.get("/", async (req, res) => {
   // res.send(re.name);
@@ -32,6 +26,27 @@ app.get("/haircut-services", async (req, res) => {
   );
 
   res.json(services);
+});
+
+app.get("/masters", async (req, res) => {
+  const masters = await Master.find({}).then((res) =>
+    res.map((master) => {
+      return {
+        id: master.id,
+        name: master.name,
+        appointment: master.appointment,
+      };
+    })
+  );
+
+  const mastersGroupByName = masters.reduce((acc, cur) => {
+    if (!acc[cur.name]) {
+      acc[cur.name] = [];
+    }
+    acc[cur.name].push(cur);
+    return acc;
+  }, {});
+  res.json(mastersGroupByName);
 });
 
 mongoConnect().catch((err) => console.log(err));
