@@ -15,5 +15,8 @@
   "dependencies": {
     "mongoose": "^8.2.4"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "type": "module"
 }
