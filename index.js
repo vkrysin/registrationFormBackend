@@ -2,9 +2,13 @@ import { mongoConnect } from "./mongoDb.js";
 
 import { Service, Master } from "./models.js";
 
+import bodyParser from "body-parser";
 import express from "express";
 const app = express();
 const port = 3000;
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get("/", async (req, res) => {
   // res.send(re.name);
@@ -64,6 +68,37 @@ app.get("/masters", async (req, res) => {
   }, {});
 
   res.json(mastersGroupByName);
+});
+
+// add appointment
+app.post("/appointment", async (req, res) => {
+  console.log(req.body);
+
+  const master = await Master.findOneAndUpdate(
+    {
+      "appointment.date": req.body.date,
+      "appointment.time": req.body.time,
+      name: req.body.master,
+    },
+    {
+      $set: {
+        appointment: {
+          clientName: req.body.clientName,
+          phone: req.body.phone,
+          email: req.body.email,
+          comment: req.body.comment,
+          date: req.body.date,
+          time: req.body.time,
+        },
+      },
+    }
+  );
+  console.log(master);
+
+  res.json({
+    success: true,
+    master,
+  });
 });
 
 mongoConnect().catch((err) => console.log(err));
