@@ -1,25 +1,11 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
 import { mongoConnect } from "../mongoDb.js";
 
-const masterScheme = new Schema({
-  name: String,
-  appointment: {
-    type: new Schema({
-      clientName: String,
-      phone: String,
-      email: String,
-      comment: String,
-      date: String,
-      time: String,
-    }),
-  },
-});
-
-export const Master = mongoose.model("Master", masterScheme);
+import { Master } from "../models.js";
 
 // инициализация услуг, которые оказывает мастерская
-// init();
+init();
 function init() {
   mongoConnect()
     .then(async () => {
@@ -55,12 +41,12 @@ function getMastersEmptySchedule() {
           date,
           time,
         };
-        mastersSchedule.push(result);
+        mastersSchedule.push(JSON.parse(JSON.stringify(result)));
       });
     });
   });
 
-  console.log(mastersSchedule);
+  // console.log(mastersSchedule);
   return mastersSchedule;
 }
 

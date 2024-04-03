@@ -3,15 +3,9 @@ import mongoose from "mongoose";
 import { mongoConnect } from "../mongoDb.js";
 import { services } from "./services.js";
 
-const serviceScheme = new mongoose.Schema({
-  name: String,
-  price: Number,
-  duration: String,
-});
+import { Service } from "../models.js";
 
-export const Service = mongoose.model("Service", serviceScheme);
-
-// init();
+init();
 
 // инициализация услуг, которые оказывает мастерская
 function init() {
