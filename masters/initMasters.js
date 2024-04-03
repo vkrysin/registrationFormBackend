@@ -35,6 +35,7 @@ function getMastersEmptySchedule() {
       times.forEach((time) => {
         result.appointment = {
           clientName: "",
+          serviceName: "",
           phone: "",
           email: "",
           comment: "",

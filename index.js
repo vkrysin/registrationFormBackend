@@ -87,6 +87,7 @@ app.post("/appointment", async (req, res) => {
           comment: req.body.comment,
           date: req.body.date,
           time: req.body.time,
+          serviceName: req.body.serviceName,
         },
       },
     }
