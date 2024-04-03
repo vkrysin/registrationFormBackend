@@ -72,8 +72,6 @@ app.get("/masters", async (req, res) => {
 
 // add appointment
 app.post("/appointment", async (req, res) => {
-  console.log(req.body);
-
   const master = await Master.findOneAndUpdate(
     {
       "appointment.date": req.body.date,
@@ -93,7 +91,6 @@ app.post("/appointment", async (req, res) => {
       },
     }
   );
-  console.log(master);
 
   res.json({
     success: true,
